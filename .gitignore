@@ -1,0 +1,4 @@
+rom.*
+screenshots/*
+.env
+game_state.sav

@@ -1,0 +1,420 @@
+{
+  "state_file": "game_state.sav",
+  "history": [
+    {
+      "role": "system",
+      "content": "You are an agent playing the game Pokemon Gold.\nThe user will send you screenshots of the game and you will have to tell them what button to press next. Reply in the following format:\nThought: Your rationale for the next action\nAction: The next button to be pressed, without quotes. It should be one of: [A, B, UP, DOWN, LEFT, RIGHT, START, SELECT].\nThe user will then reply you with the next screenshot.\nOnce you finish your objective, say 'FINISH'.\nIf the user tells you to summarize the state of the game, do that instead.\nCurrent objective: Your next immediate objective is to visit Professor Elm's lab to receive your starter Pok\u00e9mon."
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: You are currently inside your character's house. You need to exit the house and make your way to Professor Elm's lab. \n\nAction: DOWN",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: You need to move further down to exit your house and make your way to Professor Elm's lab.\n\nAction: DOWN",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: Continue moving further down to reach the exit of the house.\n\nAction: DOWN",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: It seems you've reached the lower boundary of this room. You'll need to move towards the exit, which is likely to the right of this room.\n\nAction: RIGHT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACQCAYAAACPtWCAAAAGDElEQVR42u2dIZeqThiH373nBuN+BKORSDQSjUai8UY+gtFoJBqJRCNx4kY/wkbb/suO/3EYEARlgOc55x5dwQvi4zu/GYX5CMPwRzrwbyODcshE8tNRou1O4jiWNE1r19frNFm3LevoLEn8JSIi+3RVud45X5f2aRuFrbZ1ygtJ09SL49+Fv113YBUOfASybkcgjuOH62hR89Px9sYHQSBKqd5eRrTdPbXfYz/+f2ViNBGqKbZ4WpI4jivlq6t8jwiCQERElFLO+5o+xR+azgJ+FZk3L8b1xtiP2W9mW/FeiVlV7ftVr8mn4z/7CuiSy/WY+Qa6cqAtXt26faJzoFKqdP+UFzJFJpUBuzZNtnj56VjbAXjUuXiFnLaIZEBP0D3hpjlxG4U3ifTfZlPbtlfadB91TnTJau5/1f2p8TGVYZh39DxdfH6e5ft73em5DMOMnGR/bNUE27mwrcBmE/ysfPZznx2GIQN6kEG0ePnpKMn+KPtkV3lb9WabUuk3N03TUtOul5m91KoKVpclXTnSXM9cXvU4GdCz/KcDuq6IrlstoT2QrGVL9sfbNyWu0O8aMqlb79GyNutPsSc8qXHAbRSKUqpU8eym+lFTblc7V3P3qLk3l7sGk/uSb+zjgH+m9Gk65YUEQXB3a/7Tj1VlKqWUKKXummDXrV7vFfs/l8rXWy/4uB82g+yS7KnvZe0M1xT9HHN7Vc+3M2XV8rEf/9lnQFfPtg3PimBKXPcBcC0z97fLMMzsK+DQ41Dfn8//rKrLUEYT8dp0oJ59bn4adpC66zjgJAaio+AyTO9bLQd//UMz+98D/pNMDtlymG1vPBiHGxrGAf+X4etyeVllOmTlbUB3JjMOuAo38nU5vHwbItmvgH69/tkK6AM6A66WuipdRGT5km3c/00VHFxAPzJQJtnpILlaShRcDBF7rH7LZWkbs89/ZMB7QVZLuVWlvuX4KrLSNoAMOOh+kf+684dDAGRAmG0GpAICGRDIgABkQCADApABgQwIQAYEMiAAGRDIgABkQCADApABgQwIQAYEMiAAGRDIgABkQCADApABYUYCdr0+3Nivr3cY+PM39uPXy6U59DwWTa/0aa4/+gz5m4Hefa1mfW1m5gmxCIKg9nrNU7iusc1xv3l7FImCyySuUdiLgGblazKFgbk+GXLeGbwXAc05Nh5drV7Pw/GquTZghgLaswK1WX8qGXAoyIBSnrSlas4LPbcFlQ9674Q0nShGr6clJAOSAaVvCevmNntmWi2gAj4ULwiC1tNNKaXIgDPPgH/6ErCtfF3mdgMqYC1VTfA2CkvLyIBkwN7Fq+sFj4FtUjFv7z7EeF8FPOXFw2ZYLzdF9C0DButEruHCuWyRFKLOezJgj6+/NwHbZEBXU+y7fCIi13Ahi3VSknCXZG+fsXMqc9UNPlGNLxnm1uzGkUiauytgca3c56GEIANOgG1SyPVoNGU1Eur1zTw45HzFVMCxZxgRUeeNLNbJrZm1K17dfs9+vmLmiusXWzpdGRe7TK7HjSx2WbkjIsxXPAoBXT1lXzLMaR/ecqApXdPcxXzFz8FZcZaErupn37cx5yteLZcvyYTu+YqpgJ2qny8Z8J7iVvnupEtzWRRXZ/M76/mKyYD9EayTu+bXboLd8olR/USYr9hDAesGnb3LMI7hl2u4kEVxbbWvzFf8RgHTNL2d7aZPubTF081v01M3ByOOflvi7K4a8j3wa/gIw/Cn63/S5bzgd59P26QZdg3BPGqC54o+P9mbJnjs5wWr8/72nfCtM/I7OO36Hhg8qIBd8PXSEq6fZNEMl+l6aRLOC67qOCHbeDohbUWa1HnBc8e3cUDOeINRVUDOCaET8sNhgKHgxwiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICICA4An/AWx8h1IuQS1/AAAAAElFTkSuQmCC"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: The exit should ultimately be to your right. Continue to move towards the right to find the door out of this room.\n\nAction: RIGHT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: The door should be a bit further to the right.\n\nAction: RIGHT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACQCAYAAACPtWCAAAAFiklEQVR42u2dL3SjTBRHX/dUICs/iYxEjoxERkYiIyuRlchIJBKJREYiR0YiV1bG7SeaSQkZ8o9Jgebec/YkDSRQuH3zm5dseMkT9U96sC5EyjyVcLmSKIoky7Kz65t1rln3VubhRuJoKyIiSTbrXG9Tzk/2aRmqm7aVl5VkWSbvCxmUdSGT5nWmeh7Bot8RiKLo4jpG1DJPDyc+CALRWjs7EOFyddd+9z5+fSmmbeCr6xe8RqhraYtnJImiqFO+c5XvEkEQiIiI1tp63+BS/GfndVu5+wuynZj2Y+2Teat4j6RZVdv3u34nl8fvKQV0fQKveax5Am05sC3euXVdYnKg1vrkfl5W2DL2DNh3aGqLV+bp2QnApcnFI+Rsi0gGHEkFNDPha3PiMlQHiczPzaH21lnptftocqJN1ub+d90Ht7y4asP8xMzTxtvbRj4/572eSxtm4hUwTtKbhuB2LrxV4OYQfK987efe24aBEWRAI16ZpxInqSTxqvO262Q3pTInN8uyk6HdLGvOUrsq2LksacuRzfWay7seJwOOpAIaSUxANxXRdmskbDeSjWxxkh7eKbGFflvL5Nx6l5bdsj4z4QcI6LKPtQyVaK1PKl57qL40lLernW24uzTcN5fbmsmu5KMP2I8/Ll8sLysJguDotvnPPNaVqbTWorU+GoJtt2Y911D5BpgF603Saxa8iou73pdtZ7hrMc9pbq/r+e1M2bW8D2kybAZcxWRA68z2Fu4VoSnxuT8A27Lm/vZpw0DPCti3D/j5dv/Hqvq0Mq4R75YJ1L3PLfNhm9RT7wM6aUSHQT3IzpfaH7wRPDRP/3nAdylkXfiD7Pz7YgR9uKGhD/gtw7auH1aZ1sXpNmD6OOsDztRCtvX6oTv7Ve2KvYBfj9GHm7iALl7EZMCZb6pSLSJuK1Q7Z379TBWc/Cy4bx/QVKFtXUupfQmDuiGiW9rbePr8J/QBv4dH35eZL4eq5FqObVWcbAN+QQXs24aBYZl6G+YPpxAGHYLJURNn4n1AKiAMWwHpowEVEMiAQAakAgIZEIAKCGRAIANSAYEMCEAFBDIgkAGpgEAGBKACAhkQyIBUQCADAlABgQwIZEAqIJABAW4ScOq/wND/MfvZv5+QDLjPQD/9Xc3mO1m4TsiTV0Aj309HiTCo+Y5CMuDwcPyYBQMZ8HkzEBmQCghkQDIgUAGBDEgGJANSAYEMSAaEKwXkEJyyjDuuG5woDg4Z8LEZaBlXslOedZkXVycSkgGpgLKKCydX7PxI/3bKJyKyU554cSUfq/94H5gMeExfIapqP+xGoUhW2itgtTvZFhmQCti7+n2kf2WXNobSMxIaWamCZEARcXO9YqV88VbFYZhtV7yuijuK6xWTAUci4qLf9YqXlV06Uxm9VSG7dCHeqthXP6oXGbA1G+1zveI8UYf2S1M667Z8n+sVO+JXvBPSvF7xzPfvzoTtFkszFx5lRAe5E35JBtwHISnytbPrFR/yYFO6rBSv2olSSrb1iK5XTAYcyRDs4HrFwTw+Gn7bQ/B3hWT2Swa8wN2/l6X9slOedUZM/qMCuicKv26r4qga8j4wGfDh6M1CvHlsXbaMK9GbZITxd9pVmM8DnkiYfA+7+xy4U57slCdBh5xwPy95ov5xGOwVr80Yh+Ghv5qEDPggyHxkQCADAjy4AtLLgkEnIUoxCQGGYEBAAAQEBARAQEBAAAQEBARAQEBAAAQEBARAQEBAAAQEBARAQEBAAAQEBARAQEBAAAQEBARAQEBAAAQEBARAQEBAAAQEBAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEB4ev4Hku7mdV7XgO0AAAAASUVORK5CYII="
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: You should continue moving to the right to reach the door.\n\nAction: RIGHT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACQCAYAAACPtWCAAAAFTElEQVR42u2dIZeqThiHX+/5B+L9CEYjcaKRaDQSjRv5CMSNRCKRSDQaJxr9CDfS/IfdcXEcUBQdVp7nnHt0BS8qz33nN697mZlS6lgVmUTrjcRxLHmeSxdmn1v27csy2koS70VEJM0Xrfttq+XFa1pHqteximoneZ7Lx0q88lnKpPnv0b8gjuOr+xhRqyI7nfgwDEVrPdgbidabu173Qnk2sCwRsK9Qt2KLZySJ47hVvq7Kd40wDEVERGvtvG8YUnwYUEDXibEfs09mX/GeSbOq2vfb3tN+V2LBWAR0yeV6rHkCXTnQFq9r3yExOVBrfXG/qHac7d9YAftgi1cVWecE4Nrk4hly2iKSAUcioJkJ3xrg15E6SWR+bg61fWeltwpucqJL1ubrb7sP42Jm2jCvmHm6+Pt3K//+LR96Lm2YX14BkzTrNQTbubCvwM0h+F757Ofe24aBEQhoxKuKTJI0kzTZtN62neymVObk5nl+MbSbbc1ZalsF68qSrhzZ3K+5ve1xMuBIBDSSmIBuKqLr1khoN5KNbEmanb4pcYV+V8uka79r2/rsz0x45LPgdaREa31R8QxGxDbs7UZC13B3bbhvbnc1k4eSjz6gX/7YJykMw7Pb5h/zWFum0lqL1vpsCHbdmv2Ghsr3S2fB93wva2e4WzHPaR6v7fl2pmzb/ghZ6jcDbhIyoHNm24d7RWhK3PUPwLWt+XofacOA5wqYZdnx3hPxSCvjFvFuoU8D3fXcqvDbpJ56H3CmlDpG4cHLwSs9994I9s3kG9EfK5HPcu7l4B+rEfThfEMf8EeG/eHwtMr0WV4eA+Ak4EKtZH/4fOrBvqpd+S3g12P04RBQTAZczE1VOojIsBXKzplfP1MFJz8L1tv0uN+Vsj8cpNJzicJDQ8RhsY8x+fwn9AF/huD5XBZzOVWloeXY78qLYwDMilQd+Rj8MfU2zB8UAK9DMDnMMxPvA1IBwW8FpA8HVEAgAwIZkAoIZEAAKiCQAYEMSAUEMiAAFRDIgEAGpAICGRCACghkQCADUgGBDAhABQQyIJABqYBABgToJaDvF+D7P2ZP/fqEZMDvDPTqazWba7KwTsjEK6CR79VRIAoPXKOQDOgfMjCzYCADTjcDkQGpgEAGJAMCFRDIgGRAMiAVEMiAZEB4kYB8BJesk5Z1h1PFh0MGfG4GDJeJ1Cpw7hskO9HblAz4bhVwk5Ty6hU7Xd8Dd8knIlKrQIJlMryEZED/+PrFAPP+T8NuHInklbsC7mpy4ztWQJ/rFRv56qwxFHdIaPYnD75JBvyQ0vt6xXq7kmCZnIZZu+Ldkh3JgL98FjyW9Ypt6UxlDDal1NlKgk1JBnzHDOh7veIiVacc2JSuKzfC44zim5DmesWL+fwpmdC9XvE5dq5r5sKzjAiDMdPb1PtqmWNarzj8zoIX0uWVBLt68OGX9YJHwhjWKw6Xydnwaw/BZL83zoA+cpbzGI72S60CCXY12e+dK+BoiKOv2115Vg3p+z1JQK4N0xxif/qBNutnfA8swu8Dop04c16tglMOrFUgtQrOJigw0Cy4SNWRj8Fd8WyeMQz7vjQJGXCkkPnIgNOADAjgsQLS2wKvkxClmIQAQzAgIAACAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICICAgIAACAgICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgTJ7/AT1S5Uly6z9kAAAAAElFTkSuQmCC"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: Since the door does not appear on the right, it may be at a different location. Let's try moving down again to find it.\n\nAction: DOWN",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACQCAYAAACPtWCAAAAFO0lEQVR42u2doZbiMBhGf/asqNxHQCIrI5GVSGQlcmQfoXJkZSWyshJZGYnkEVbiWAFhQ0kLhUI69N5z9lDasAV658+XMEMmSqlDuc4kWq4kjmPJ81zaMG3uaduVebSRJN6KiEiazxrbbcr51XNaRqrTudZlJXmey9dCvPJdyKj5/ex/EMfxzTZG1HKdnS98GIaite7thUTL1UPPe6Y8G1gUCNhVqHupi2ckieO4Ub62yneLMAxFRERr7dw29Ck+9Cig68LU99UvZlfxXoldVevbTa9pWxVYMBQBXXK59tkX0JUD6+K1te0TkwO11lfb67Liav/ECtiFunjlOmsdANwaXLxCzrqIZMCBCGhGwvcG+GWkzhKZ+3ZX23VUeq/gJie6ZLWff9M2DIuJmYZ5x8jTxZ8/G/n7d/7UY5mG+eEVMEmzTl1wPRd2Fdjugh+Vr/7YR6dhYAACGvHKdSZJmkmarBpvmy62LZW5uHmeX3Xt5pg9Sm2qYG1Z0pUj7Xb28ab9ZMCBCGgkMQHdVETXrZGwPpFsZEvS7PxJiSv0u6ZM2trdOtalPSPhgY+Cl5ESrfVVxTMYEZuoHzcSurq7W929fdw1mdyXfMwD+uVX/SKFYXhxa/8z+5oyldZatNYXXbDr1rTrGyrfDx0FP/K5bD3D3Yt5jH2+psfXM2XT8WfIUr8ZcJWQAZ0j2y48KoItcdsPgOuY/XyfmYYBzxUwy7LDoxfimamMe8S7hy4T6K7Hlmu/k9RjnwecKKUOUbjzcvJST71PBPtm9BPRXwuR72Lq5eRfiwHMw/mGecD/Mmx3u5dVpu/i+hwAZwFnaiHb3fdLT3asdsVJwOM+5uEQUEwGnE1NVdqJSL8Vqp4zj/epgqMfBetNethWhWx3Oyn1VKJwZ4nYL/VzjD7/CfOA/7vg6VRmUzlXpb7l2FbF1TkAJutUHXgb/DH2aZhfKABeu2BymGdGPg9IBQS/FZB5OKACAhkQyIBUQCADAlABgQwIZEAqIJABAaiAQAYEMiAVEMiAAFRAIAMCGZAKCGRAACogkAGBDEgFBDIgQCcBfT8B33+YPfbvJyQDnjLQu7+r2XwnC+uEjLwCGvneHQWicMd3FJIB/UMGZhQMZMDxZiAyIBUQyIBkQKACAhmQDEgGpAICGZAMCG8SkLfgmmXSsO5wqnhzyICvzYDhPJG9Cpxtg6QSvUnJgJ9WAVdJIe9esdP1OXCbfCIiexVIME/6l5AM6B9fvxjQ9vqDan8Wj9z4wRXQ53rFTbnPyGe2bQmXSUUe/JQM+CXFQNYrrlqrni2kKzuSAX/4KNjnesXhPJF9tpBgVcg+c594H59EPLUhC35YBhzCesW2fLaM9rbdhiz4YRnQ13rF61RJsCquBHMOTE7tyID9MNGb1PtqmUNZrzicJ5cS5uXxNo4u5Ouz62W94IHge73iC/ny8nLQURWyV8E5J4bkv/4qIOsFH6dVXHnPVQHtdn10w2NfL5jPgl3UxDvfh8/MgEPAdMH30lcXPPYMyO8D1oTaq8D5ebC9n/xHBnxpHjSYjOfa1xdjz4AI6JnRD0L4fkDP8DchAB4rIJ9ngtcMqBQZEOiCAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAWH0/ANA/fi/CrCVuwAAAABJRU5ErkJggg=="
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: The door must be somewhere on the lower part of the room, but it seems like you're at a lower boundary again. Let's try going left to see if we can find the exit.\n\nAction: LEFT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACQCAYAAACPtWCAAAAFQElEQVR42u2dIZeqThiHX+/5B+P9CEYjcaKRaDQSjRv5CMSNRCKRSDQSJxr5CDfa/AcdF8dBRdFh5XnOuUdX8MLKs+/85mUXJkqpfZmnEq7WEkWRZFkm1zDr3LNuVxbhRuJoKyIiSTZvXW9TLi72aRWqTtvKy0qyLJOvpXjlu5BR89+z/0EURTfXMaKWeXo68EEQiNa6t28kXK0f2u+58mxgUSBgV6HuxRbPSBJFUat81yrfLYIgEBERrbXzuaFP8aFHAV0Hxn7NPphdxXslzapqP2/7nrZVgQVDEdAll+u15gF05UBbvGvr9onJgVrri+d5WXG0f2MF7IItXpmnVycAtyYXr5DTFpEMOBABzUz43gC/CtVJIvN1c6jtOiu9V3CTE12yNve/7TkMi4lpw7xj5uni79+N/Pu3eOq9tGF+eQWMk7TTEGznwq4CN4fgR+Wz3/toGwYGIKARr8xTiZNUknjd+th2sJtSmYObZdnF0G6WNWepbRXsWpZ05cjmes3lba+TAQcioJHEBHRTEV2PRkK7kWxki5P0dKbEFfpdLZNr691a1mV9ZsIDnwWvQiVa64uKZzAitmEvNxK6hrtbw31zuauZ3Jd89AH98sc+SEEQnD02/5nX2jKV1lq01mdDsOvRrNc3VL5fOgt+5LysneHuxbynub2299uZsm35M6SJ3wy4jsmAzpltFx4VoSnxtR8A17Lm/j7ThgHPFTBN0/2jB+KZVsY94t1Dlwa6671l7rdJPfY+4EQptQ+D2svGSz3z3gj2zegb0V9Lke9i5mXjX8sB9OF8Qx/wR4ZtXb+sMn0Xl9sAOAk4V0vZ1t8v3dih2hVHAQ+v0YdDQDEZcD4zVakWkX4rlJ0zD19TBUc/C9abZL+tCtnWtZR6JmFQN0TsF3sbo89/Qh/wZwiezWQ+k1NV6luObVVcbANgkidqz8fgj7G3Yf6gAHgdgslhnhl5H5AKCH4rIH04oAICGRDIgFRAIAMCUAGBDAhkQCogkAEBqIBABgQyIBUQyIAAVEAgAwIZkAoIZEAAKiCQAYEMSAUEMiBAJwF974DvP8we+/UJyYDHDPTuazWba7Jwn5CRV0Aj37ujQBjUXKOQDOgfMjCzYCADjjcDkQGpgEAGJAMCFRDIgGRAMiAVEMiAZEB4k4B8BJes4pb7DieKD4cM+NoMGCxi2ampc91pXIneJGTAT6uA67iQd9+x03Ue+Jp8IiI7NZXpIu5fQjKgf3z9YoD9/U+rXbuEUShSFRIsYobjT6qAPu9XfCv3ncknIrv0MGRP1wUSfkIG/JJiIPcrrs6qoD30SlaeLettGCYDDgPf9yvWm+SQAdOlTNfFWaWzhYQPzIBDvl9xU0aRQzuG/uEHZsCh3K/YCGc/N/JBf0z0JvF+t8wh3a/41Io5Tjqala/X7HeE+wUPhKHcr1hvEpkuYhFriD0Nw/QBPzMDuoTxuY2dmp5PPo6z4Hft21jgt2Ec5Ik6NKTT5U8GjMKzYRl6qoBcG0acOdDG5EDOBX9oBhySfOZUnJHODMdkvxfMgvNE7fkYznGdlntV+8X3pUmogAPNgEAGHAf8TQiAxwpITwu8TkKUYhICDMGAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAMHr+B47Y43vujKB/AAAAAElFTkSuQmCC"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: The door must be somewhere on the lower side. The perspective in these games can make it tricky to spot exits. Let's try moving down again to see if we overlooked something.\n\nAction: DOWN",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACQCAYAAACPtWCAAAAFO0lEQVR42u2doZbiMBhGf/asqNxHQCIrI5GVSGQlcmQfoXJkZSWyshJZGYnkEVbiWAFhQ0kLhUI69N5z9lDasAV658+XMEMmSqlDuc4kWq4kjmPJ81zaMG3uaduVebSRJN6KiEiazxrbbcr51XNaRqrTudZlJXmey9dCvPJdyKj5/ex/EMfxzTZG1HKdnS98GIaite7thUTL1UPPe6Y8G1gUCNhVqHupi2ckieO4Ub62yneLMAxFRERr7dw29Ck+9Cig68LU99UvZlfxXoldVevbTa9pWxVYMBQBXXK59tkX0JUD6+K1te0TkwO11lfb67Liav/ECtiFunjlOmsdANwaXLxCzrqIZMCBCGhGwvcG+GWkzhKZ+3ZX23VUeq/gJie6ZLWff9M2DIuJmYZ5x8jTxZ8/G/n7d/7UY5mG+eEVMEmzTl1wPRd2Fdjugh+Vr/7YR6dhYAACGvHKdSZJmkmarBpvmy62LZW5uHmeX3Xt5pg9Sm2qYG1Z0pUj7Xb28ab9ZMCBCGgkMQHdVETXrZGwPpFsZEvS7PxJiSv0u6ZM2trdOtalPSPhgY+Cl5ESrfVVxTMYEZuoHzcSurq7W929fdw1mdyXfMwD+uVX/SKFYXhxa/8z+5oyldZatNYXXbDr1rTrGyrfDx0FP/K5bD3D3Yt5jH2+psfXM2XT8WfIUr8ZcJWQAZ0j2y48KoItcdsPgOuY/XyfmYYBzxUwy7LDoxfimamMe8S7hy4T6K7Hlmu/k9RjnwecKKUOUbjzcvJST71PBPtm9BPRXwuR72Lq5eRfiwHMw/mGecD/Mmx3u5dVpu/i+hwAZwFnaiHb3fdLT3asdsVJwOM+5uEQUEwGnE1NVdqJSL8Vqp4zj/epgqMfBetNethWhWx3Oyn1VKJwZ4nYL/VzjD7/CfOA/7vg6VRmUzlXpb7l2FbF1TkAJutUHXgb/DH2aZhfKABeu2BymGdGPg9IBQS/FZB5OKACAhkQyIBUQCADAlABgQwIZEAqIJABAaiAQAYEMiAVEMiAAFRAIAMCGZAKCGRAACogkAGBDEgFBDIgQCcBfT8B33+YPfbvJyQDnjLQu7+r2XwnC+uEjLwCGvneHQWicMd3FJIB/UMGZhQMZMDxZiAyIBUQyIBkQKACAhmQDEgGpAICGZAMCG8SkLfgmmXSsO5wqnhzyICvzYDhPJG9Cpxtg6QSvUnJgJ9WAVdJIe9esdP1OXCbfCIiexVIME/6l5AM6B9fvxjQ9vqDan8Wj9z4wRXQ53rFTbnPyGe2bQmXSUUe/JQM+CXFQNYrrlqrni2kKzuSAX/4KNjnesXhPJF9tpBgVcg+c594H59EPLUhC35YBhzCesW2fLaM9rbdhiz4YRnQ13rF61RJsCquBHMOTE7tyID9MNGb1PtqmUNZrzicJ5cS5uXxNo4u5Ouz62W94IHge73iC/ny8nLQURWyV8E5J4bkv/4qIOsFH6dVXHnPVQHtdn10w2NfL5jPgl3UxDvfh8/MgEPAdMH30lcXPPYMyO8D1oTaq8D5ebC9n/xHBnxpHjSYjOfa1xdjz4AI6JnRD0L4fkDP8DchAB4rIJ9ngtcMqBQZEOiCAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEAABAQEBEBAQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAQEQEBAQAAEBAWH0/ANA/fi/CrCVuwAAAABJRU5ErkJggg=="
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: My previous assessment was not correct. Since the exit is not on the lower side and we have explored to the right, let\u2019s try moving upward and then left. \n\nAction: UP",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACQCAYAAACPtWCAAAAFQElEQVR42u2doZLiTBRGL1u/iNxHQCIjWyIjkchI5Mg8QuTIyEhkZCQysiWSR1gZxy+YZjJNJxAIdIacU7UFE5oNMzl7++vLLD1TSh3LbSbReiNxHEue59KFGXPL2L4so50k8V5ERNJ80TpuVy4vXtM6Ur3OtS0ryfNcPlbilc9CJs1/j/4FcRxfHWNELbfZ+cKHYSha68G+kWi9uet1L5RnA4sCAfsKdSu2eEaSOI5b5euqfNcIw1BERLTWzvuGIcWHAQV0XRj7mH0x+4r3TJpV1b7f9j3tqwILxiKgSy7XseYFdOVAW7yusUNicqDW+uL+tqy42r+xAvbBFq/cZp0LgGuLi2fIaYtIBhyJgGYlfGuAX0fqLJH5ujnV9l2V3iq4yYkuWZuvv+0+jIuZacO8YuXp4u/fnfz7t3zoubRhfnkFTNKs1xRs58K+Ajen4Hvls597bxsGRiCgEa/cZpKkmaTJpvW27WI3pTIXN8/zi6ndPNZcpbZVsK4s6cqRzXHNx9uOkwFHIqCRxAR0UxFdt0ZCu5FsZEvS7PxOiSv0u1omXeOuPdZnPCvhka+C15ESrfVFxTMYEduwHzcSuqa7a9N983FXM3ko+egD+uWPfZHCMPxx2/xjjrVlKq21aK1/TMGuWzNuaKh8v3QVfM/7snaGuxXznOb52p5vZ8q2xx8hS/1mwE1CBnSubPtwrwhNibv+Abgea77eR9ow4LkCZll2vPdCPNLKuEW8W+jTQHc9t9z6bVJPvQ84U0odo/Dg5eSlnntvBPtm8o3oj5XIZzH3cvKP1Qj6cL6hD/gtw/5weFpl+iwuzwFwFnChVrI/fD71ZKdqV3wJeDpGHw4BxWTAxdxUpYOIDFuh7Jx5+poqOPlVsN6lx31VyP5wkFLPJQoPDRGHxT7H5POf0Af8noLnc1nM5VyVhpZjXxUX5wCYbVN15Mfgj6m3Yf6gAHidgslhnpl4H5AKCH4rIH04oAICGRDIgFRAIAMCUAGBDAhkQCogkAEBqIBABgQyIBUQyIAAVEAgAwIZkAoIZEAAKiCQAYEMSAUEMiBALwF9vwDf/zF76p9PSAb8ykCv/qxm85ks7BMy8Qpo5Ht1FIjCA59RSAb0DxmYVTCQAaebgciAVEAgA5IBgQoIZEAyIBmQCghkQDIgvEhAfgSXrJOWfYdTxQ+HDPjcDBguE6lV4BwbJJXoXUoGfLcKuEkKefWOna73gbvkExGpVSDBMhleQjKgf3z9YsA93z+58c0qoM/9iq/lvraMSB58kwz4IcVI9is+CRhU9WkajqOfg/NSgqpuzY5kwF++Cva5X3G4TKTOVhJsirOE0jHN1tmKLPhuGXAM+xU3JeySjyz4phnQ137F21RdFc9gxpEBh2Gmd6n33TLHsl+xmYrtvCci51wYbIpBp172Cx4JvvcrNj1AU+GaU+258lUFvcChKyD7BZ/aKib/1Sr4Xgk3Bfw6FlT1eewQ0/DU9wvmvWA745mp127DVMXFtAxvkgHHQLhMeo0fagqeegbk9wEtoWoVON8Pbh4n/5EBn5oHDSbjuY4NxdQzIAJ6ZvKLED4f0DP8nxAAjxWQ9zPBawZUigwITMGAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAMHn+B/vr8aca78hwAAAAAElFTkSuQmCC"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: It seems like we are near the table. Let's continue moving upward until we potentially see an exit. \n\nAction: UP",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: Since the exit is not visible yet, let\u2019s continue further up to see if it appears.\n\nAction: UP",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: The exit should be somewhere on the right side of the room, near the upper portion. Continuing to go left seems to be counterproductive. Let's head toward the right and explore the other area once more. \n\nAction: RIGHT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: Let's continue moving to the right. The exit door might be located further to the right side of the room.\n\nAction: RIGHT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: The exit should be close. Keep moving right to find the door.\n\nAction: RIGHT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: It appears we are at the edge of the room again. Let's try a different direction. Let's move left and then down as the most likely accessible spot isn't here.\n\nAction: LEFT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: The lower exit should be on the left side of this area. Let\u2019s try moving further away left or down. \n\nAction: LEFT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: To exit the room, we need to go downstairs. This can be done by exploring to the left side. \n\nAction: LEFT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: To find the point of exit, we need to thoroughly inspect the lower parts of the room leftwards. \n\nAction: LEFT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: The room layout suggests that the exit could be down the stairs to the right of the table.\n\nAction: DOWN",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: You need to navigate to the lower portion of the screen towards the middle, then head down to exit.\n\nAction: DOWN",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: I apologize for the confusion. Let's proceed down to find the exit. You need to move toward a different spot than previously attempted. Let's head toward the center to find it.\n\nAction: LEFT",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: You need to use the stairs, which are likely positioned at the bottom of the room.\n\nAction: DOWN",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACQCAYAAACPtWCAAAAHuUlEQVR42u2dLXerShSG9znriMj+BGQkEhkZGRkZGVnJT4isjEQikcjKSGRl5JVHxp0r2mknk+ErDJkJPM9aXaRACoWXvd/ZA8yvJEn+CYAnfnMIAAECAgRAgIAAARAgIEAABAgIEAABAgIEQICAAAEQICBAABf8ed2IfJzP1oVlFQnLm5cPxff2vQuQa3A4ZX6863vr7b5VSG+FiEg02WN3JcBlFNVebSxvXz6E42HTa/19WkxPgOCXIn/rtN5m+3ozL45jqaqq9zSoRkjb1c3y8+gnZBlFsoz6pdxnFZ+1Fdz2z7M8PD92j/jiOCYFT4X0cHT2t8woqwTfFn1VROs7DU6ApNn+y++NJm0i0KNtUwPItv0u+5RlGRHw78tO/pP6q9JWhvg5uMOv4rYyR9cySN+I0iYQW6rv2goPJb0+VQquqqpzPW293Ts/yKv1u1SnHhfO39UoAhzqMZ9JfDcCfOY62tDtv5erwdvf7XaSZZl1qlKemueypa2LPxRvRyOkB2V+lEO27HfST7dRULFdJ5Jl2fe0K7b6Xtf970tensLzgL4Nfl6eBv0zvut4dYLbrpPvCFi3zlR6NgZHQN9puO2qVOnM5fZVn6wr1N+z/V3rvPhs3T/bzQjm8mfH++1YWZbd+JYyP7aaaZde5+Xl3anwbPNdi3yyEdBHGi7z49UJ6nKyzO8M2b7ycqt1NyHaGiyuWp/37P8zi/tPU9N/GTWXBlwsf7vT+ii/6KqOp0h3HyIivRslh3R/1/67OL5DuPf4OxPgMtn43YNi2BFo84S6ryzz43frz3WHfN8opPb72Y//5MowXQTVx1/qwlMi2e12teLrG/lsaVjv7Ld1/D9brW5UAX6cwmn+206MOa9PH6dNeGOiR1Xzc93/FNLxn30E7Nqprp9AW9nGFF7XEs9QVL2vqqqbz0NrnJMVYEgeZGhqMoVX10NQ1wvgojuuTZymEPGAgVBXVqnziXqPgvpdT7XqhLveR+UTbWKtKyVRA6znV37wO0zDWzH8qbIhvLy81/bpdv3uPYJXUfjVcwD0XoYJ4SpQdxR3TcGmL+wrYD0F3ys+87v3lmHwgAF4ECW8Mj9KejjKId3XTutOti4q/fYnM7WrZXortS6CNXlJm4/U19OX183HAwYSAZVIlEFXEdE2VSI0C8lKbOnheHUPXl3r0/x+Uyu1bwu2bn1awhYBhlSH2q4TqarqJuKZqbotlZvRzpbu2tK9eZNn177evuKbex0wqJcT5eVJ4ji+muo/al6dp6qqSqqqukrBtqlab4z9J/L1bAVX7wevreB9WtzVL2t6uK7YHkus+77pKeuWD6HvKznGOP6z94C2lm0f7hWCLuKmC8C2TN/fIWWY2UdA33XAvy+7u0/EkFKGqwe0+xTQbd8tc79Fat91wCAK0fot6Q9tfX/d8j5nZn8/4KsU8lZEfra9CaAO5xvqgD9iMB/GcX2lm9sA/wRTB1wmG/k4v42+DZHiS4Cf8+Zeh/MuwBB2QnnAn2cfzuL6tbSmz/z8nSjovRXsuw6ootDH+SxlFck6Po/2Dj5zG7P3f0Id8Cc9RtHXU16Rli7ditzcBgQQAX2XYcAvvsswDFQDflMwPmjmeK4DEgHBbwSkDga0ggNjm9bc13dIODh4wHGJV6lckoV12SI9SfV+wAPiAR8vPhGRS7KQeJVyoPCAj2FxunwLT4djRgQc3fcp8Zmfmzwi4AEHcGqMeqYIJ3PcuB8wEO933MhiX8jlaBfWZfclxK91Fqt0eg0SPKBfdPHpYtQ/6+tw7IiATsgPiSz2xY3ArA2Tr/WoCbohiPsBQ0rFVyLMys/pbn0lvimlXt/3A9IKtokvK2WxL2Rxunz+7AuRrPwWJrVAPKBTtunpxu9ddvYI+L3eKiUN4wFHwhDe9++ABxw7BXdlKj4QDxgISlCXZGHtD9bnU/9zGAF5JuTWDyqUx7PNmwqzfzcMzFuA9AXPHe4HhDlDHRD8CnCoB3j29+v59kBzfz/hH5GfcSy6vulTX//pPeSXB3r0u5pV/Y1xQgziOG58X/MU32t8PGwefmvVOj7zjkIlQD3ydRnCQF8fDzkMxguW6zE22t5Wr8bhGGusDZihAM1RgdrQ15mKB/QFHlBuB22pG/NCjW1B5APnjZCuA8Wo9ZQI8YB4QGetYCWuprHN7hlWC6BRgKr00ne4qaqq8IB4wEH8VgLsK74hY7sBWFOw3tiwsV0nN8vwgHhAZwJU4mpqBQOMIsC8PLWmYbVcFyIeEA/oRIB9PKAtFT8z+7R4+Iid9AM3eMA5ehhfgsADgtfxiomAz+5hBjL78Yp5P2AgQtwwXnHwArS1lKfiYRivmAjo3QMyXnHAAqyrE07jueJCivxt1PGKl1F0s40gjh0eMJAUzHjF4Qqwqeg8VQ/ziP+LfnSRX0ly/W4Y9cilKTyVfs1HN+f+XOuz4/3lREmS/BvyXPCjn6cFt/h+PyDPBUNYKbgvpGBS8OAIyHPB4FWAfYU0qeeC505odUCiGjxVBKSWBV4bIQBD4BW9gAABAQIgQECAAAgQECAAAgQECIAAAQECIEBAgAAIEBAgAAIEBAiAAAEBAiBAQIAACBAQIAACBAQIgAABAQIgQECAAAgQECCAiIj8DwLeZTxm7zD3AAAAAElFTkSuQmCC"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: I apologize for the confusion. The perspective can be tricky here. Let's move toward the bottom left since we have explored the other directions with no success.\n\nAction: DOWN",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: To exit the room you need to navigate around obstacles. Moving right from the current location may provide the required exit path. \n\nAction: RIGHT",
+      "role": "assistant"
+    }
+  ],
+  "full_history": [
+    [
+      {
+        "role": "system",
+        "content": "You are an agent playing the game Pokemon Gold.\nYour final goal is to finish the game.\nCurrent state of the game:\nJust started the game. No pokemon caught.\nWith that, you should decide on the next objective."
+      },
+      {
+        "role": "user",
+        "content": "Skip the preamble, just say a brief sentence on the next immediate objective"
+      },
+      {
+        "content": "Your next immediate objective is to visit Professor Elm's lab to receive your starter Pok\u00e9mon.",
+        "role": "assistant"
+      }
+    ]
+  ],
+  "objective": "Your next immediate objective is to visit Professor Elm's lab to receive your starter Pok\u00e9mon.",
+  "sumarized_state": "Just started the game. No pokemon caught.",
+  "state": 1,
+  "current_actions": 26,
+  "next_action": "right"
+}
