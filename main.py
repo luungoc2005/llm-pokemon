@@ -235,6 +235,8 @@ def main():
             if prev_screenshot != None:
                 if score < 0.97 or state['next_action'] is None:
                     if state['state'] == State.ACTION.value:
+                        if not path.isdir('./screenshots'):
+                            os.mkdir('./screenshots')
                         image_path = f'./screenshots/{datetime.now().timestamp()}.{IMAGE_FORMAT}'
                         pil_image.save(image_path, optimize=True, quality=80)
                         image_url = encode_image(image_path)
