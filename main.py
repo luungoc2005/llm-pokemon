@@ -63,7 +63,7 @@ STATE_JSON = 'state.json'
 MODEL = 'gpt-4o'
 MAX_TOKENS = 100
 MAX_TOKENS_LONG = 512
-MAX_ACTIONS = 10
+MAX_ACTIONS = 1
 IMAGE_FORMAT = 'png'
 BASE_GAME_STATE_FILE = 'game_state_base.sav'
 GAME_STATE_FILE = 'game_state.sav'
@@ -188,7 +188,7 @@ def get_summary(client: openai.Client, state: dict):
     state['sumarized_state'] = new_message.content
 
     # archive the new history as well to reset context length
-    state['history'] = reset_history(state['history'])
+    state['history'] = reset_history(state)
     state['state'] = State.ACTION.value
     state['next_action'] = None
 
@@ -247,7 +247,7 @@ def main():
 
                     elif state['state'] == State.SUMMARIZE.value:
                         # save new state after x turns
-                        with open(GAME_STATE_FILE) as fp:
+                        with open(GAME_STATE_FILE, 'wb') as fp:
                             em.save_state(fp)
                         state['state_file'] = GAME_STATE_FILE
 
