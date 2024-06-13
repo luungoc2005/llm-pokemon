@@ -34,8 +34,8 @@ OBJECTIVE_USER_PROMPT = (
 ACTION_SYSTEM_PROMPT = (
     "The user will send you screenshots of the game and you will have to tell them what button to press next. "
     "Reply in the following format:\n"
-    "Thought: Your rationale for the next action\n"
-    "Action: The next button to be pressed, without quotes. It should be one of: [A, B, UP, DOWN, LEFT, RIGHT, START, SELECT].\n"
+    "Thought: Think of where you are and the next action you should do on the screen\n"
+    "Action: The next button you should press on the screen, without quotes. It should be one of: [A, B, UP, DOWN, LEFT, RIGHT, START, SELECT].\n"
     "The user will then reply you with the next screenshot.\n"
     "Once you finish your objective, say 'FINISH'.\n"
     "If the user tells you to summarize the state of the game, do that instead.\n\n"
@@ -93,9 +93,20 @@ def reset_history(state: dict):
     return state
 
 def get_response(client: openai.Client, history: List[dict], max_tokens=MAX_TOKENS):
+    # create new history with screenshot as last item only
+    prompt_history = []
+    for ix, item in enumerate(history):
+        if not isinstance(item['content'], str) and ix != len(history) - 1:
+            prompt_history.append({
+                'role': item['role'],
+                'content': '(image)',
+            })
+        else:
+            prompt_history.append(item)
+    
     response = client.chat.completions.create(
         model=MODEL,
-        messages=history,
+        messages=prompt_history,
         max_tokens=max_tokens,
     )
     new_message = response.choices[0].message
@@ -145,7 +156,7 @@ def get_next_action(client: openai.Client, state: dict, screenshot_url: str):
             },
         ]
     
-    state['history'].append({
+    screenshot_message = {
         'role': 'user',
         'content': [
           {
@@ -155,7 +166,8 @@ def get_next_action(client: openai.Client, state: dict, screenshot_url: str):
             },
           },
         ],
-    })
+    }
+    state['history'].append(screenshot_message)
     start_time = time.time()
     state['history'], new_message = get_response(client, state['history'])
 
@@ -188,7 +200,7 @@ def get_summary(client: openai.Client, state: dict):
     state['sumarized_state'] = new_message.content
 
     # archive the new history as well to reset context length
-    state['history'] = reset_history(state)
+    state = reset_history(state)
     state['state'] = State.ACTION.value
     state['next_action'] = None
 
@@ -196,11 +208,15 @@ def get_summary(client: openai.Client, state: dict):
     return state
 
 def main():
+    global MAX_ACTIONS
     BASE_URL = os.getenv('BASE_URL')
     if BASE_URL is None:
         client = openai.Client()
+        MAX_ACTIONS = 5
     else:
+        print('Using BASE_URL:', BASE_URL)
         client = openai.Client(base_url=BASE_URL)
+        MAX_ACTIONS = 3
     em = PyBoy('rom.gbc')
     
     i = 0
@@ -242,8 +258,11 @@ def main():
                         image_url = encode_image(image_path)
                         state = get_next_action(client, state, image_url)
 
-                        em.button(state['next_action'], 5)
-                        em.tick()
+                        try:
+                            em.button(state['next_action'], 5)
+                            em.tick()
+                        except Exception as e:
+                            print(f'Error: {e}, action: {state["next_action"]}')
 
                     elif state['state'] == State.SUMMARIZE.value:
                         # save new state after x turns

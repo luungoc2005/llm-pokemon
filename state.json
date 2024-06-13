@@ -1,0 +1,179 @@
+{
+  "state_file": "game_state.sav",
+  "history": [
+    {
+      "role": "system",
+      "content": "You are an agent playing the game Pokemon Gold.\nThe user will send you screenshots of the game and you will have to tell them what button to press next. Reply in the following format:\nThought: Think of where you are and the next action you should do on the screen\nAction: The next button you should press on the screen, without quotes. It should be one of: [A, B, UP, DOWN, LEFT, RIGHT, START, SELECT].\nThe user will then reply you with the next screenshot.\nOnce you finish your objective, say 'FINISH'.\nIf the user tells you to summarize the state of the game, do that instead.\n\nCurrent state: Current State: You are in your bedroom at the start of the game and have been trying to navigate downstairs to leave the house. No Pok\u00e9mon has been obtained yet. Your current objective remains to head to Professor Elm's lab to receive your first Pok\u00e9mon. No team or progress beyond attempting to exit the bedroom.\n\nObjective: Leave the house and go to Professor Elm's lab to receive your first Pok\u00e9mon.\n\nCurrent objective: Head to Professor Elm's lab to receive your first Pok\u00e9mon."
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: You need to navigate downstairs to leave the house.\nAction: Press DOWN.",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: You need to navigate downstairs to leave the house.\nAction: Press DOWN.",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: You need to continue moving downwards towards the stairs to leave the house.\nAction: Press DOWN.",
+      "role": "assistant"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,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"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Thought: You need to move down to the next part of the floor to find the stairs and leave the house.\nAction: Press DOWN.",
+      "role": "assistant"
+    }
+  ],
+  "full_history": [
+    [
+      {
+        "role": "system",
+        "content": "You are an agent playing the game Pokemon Gold.\nYour final goal is to finish the game.\nCurrent state of the game:\nJust started the game. No pokemon caught.\nWith that, you should decide on the next objective."
+      },
+      {
+        "role": "user",
+        "content": "Skip the preamble, just say a brief sentence on the next immediate objective"
+      },
+      {
+        "content": "Head to Professor Elm's lab to receive your first Pok\u00e9mon.",
+        "role": "assistant"
+      }
+    ],
+    [
+      {
+        "role": "system",
+        "content": "You are an agent playing the game Pokemon Gold.\nThe user will send you screenshots of the game and you will have to tell them what button to press next. Reply in the following format:\nThought: Think of where you are and the next action you should do on the screen\nAction: The next button you should press on the screen, without quotes. It should be one of: [A, B, UP, DOWN, LEFT, RIGHT, START, SELECT].\nThe user will then reply you with the next screenshot.\nOnce you finish your objective, say 'FINISH'.\nIf the user tells you to summarize the state of the game, do that instead.\n\nCurrent state: Just started the game. No pokemon caught.\n\nCurrent objective: Head to Professor Elm's lab to receive your first Pok\u00e9mon."
+      },
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": "data:image/png;base64,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"
+            }
+          }
+        ]
+      },
+      {
+        "content": "Thought: You are in your room. You need to head downstairs and exit the house to go to Professor Elm's lab.\n\nAction: DOWN",
+        "role": "assistant"
+      },
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": "data:image/png;base64,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"
+            }
+          }
+        ]
+      },
+      {
+        "content": "Thought: You need to continue moving towards the exit of your house by going downstairs.\n\nAction: DOWN",
+        "role": "assistant"
+      },
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": "data:image/png;base64,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"
+            }
+          }
+        ]
+      },
+      {
+        "content": "Thought: You are in your room, but you need to move towards the bottom of the screen to find the stairs to go downstairs.\n\nAction: DOWN",
+        "role": "assistant"
+      },
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACQCAYAAACPtWCAAAAGEElEQVR42u2dIZeqTByH/7vnBuN+BONGItFoNBqJxhv5CEQjkWgkEo3EiRv9CBtt+4Z3hzvCgCAoAzzPOfeIMl4QHmd+My7Mm+/7P9KDvzsZlWMqkp1i2e4PEgSBJEnSWF6XaVO2K5vtWcLgS0REouSzttw521T2ab/1O23rlOWSJIkTx78Pf/ruwKc/8hFI+x2BIAjultGiZqe4OPGe54lSarCPsd0fHtrvqR//PzIz2gjVlrJ4WpIgCGrla6r57uF5noiIKKWsy5ohxR+b3gJ+5akzH8Z2YsqvlU9mV/GeiVmrlpfrPpNLx3/xNaBNLttr5gm05cCyeE1lh0TnQKVUZfmU5TJHZpUB+zZNZfGyU9zYAbjXuXiGnGURyYCOoHvCbXPifusXEunnZlPbtVfadh91TrTJau5/3fLceJvLMMwrep42Pj7O8v296fVehmEmThjFnZrgci7sKrDZBD8qX/m9jw7DkAEdyCBavOwUSxjFEoWH2se6k21KpU9ukiSVpl2vM3updTVYU5a05UiznLm+7nUyoGP5Twd0XSPaHrWE5YFkLVsYxcUvJbbQbxsyaSp3b12X8nPsCc9qHHC/9UUpVanxyk31vaa8XNvZmrt7zb253jaYPJR8Ux8HfJ/Tt+mU5eJ53s2j+U+/VpeplFKilLppgm2Putwz9n8pNd9gveA4GjeDHML0od9lyxmuLfo95vbq3l/OlHXrp378F58BbT3bLjwqgilx0xfAts7c3z7DMIuvAcceh/r+ePzPqvoMZbQRr0sH6tH3ZqdxB6n7jgPOYiB6613G6X2r9eiff2wW//eAfyWVY7oeZ9s7B8bhxoZxwH8yfF0uT6uZjml1G9Cf2YwDfvo7+bocn74NkfRXQLc+/2IFdAGdAT/Xula6iMj6Kdu4fU4tOLqAbmSgVNLTUTK1lq13MUQcsPZbryvbWHz+IwPeCvK5lqJWGlqOrzytbAPIgKPuF/mvP+8cAiADwmIzIDUgkAGBDAhABgQyIAAZEMiAAGRAIAMCkAGBDAhABgQyIAAZEMiAAGRAIAMCkAGBDAhABgQyIAAZEBYkYN/7w039/nrHkb9/Uz9+g9yaQ89j0fZOn2b5yWfI3wz06ns163szM09ICc/zGu/XPIf7GpeJo93Lo8jWu8ziHoWDCGjWfG2mMDDLkyGXncEHEdCcY+Pe3er1PBzPmmsDFihgeVagLuXnkgHHggwo1Ulb6ua80HNbUPPB4J2QthPF6HJaQjIgGVCGlrBpbrNHptUCasC74nme13m6KaUUGXDhGfB9KAG7ytdnbjegBmykrgneb/3KOjIgGXBw8Zp6wVNgH9bM2xv5GO+qgKcsv9sM6/WmiK5lQG8TytVfWdetwlzUOSIDDvj5BxOwSwa0NcWuyycicvVXstqEFQkPYfryGTvnMlfd6BPVuJxhVvm1EO/ePo8lBBlwJpRzn5ZPL5sS7sP8Jg+OOV8xNeDUM0xB3ljrmUKa+734+YqZK26g7BfvZHVI5RrbT+g1+BXxt0w5CzJf8QQEtPWUXcowpnymjOayWcbcd+YrpgZ8/IsR+bI6pBXBrB2T33K2DMh8xQ4LWDdO6EoGVOedeJuwqO2u8U4kyW6k1PJVxgKXPF8xGXC4HFjIlmS3nY48lau/KnKiZxkLZL5ihwVsGnR2IcPsw7yS966BFDWgBNtqLtyEjT/NMV/xCwVMkqS42k1fclkWTze/bS/dHJWSeMVzGJw33/d/+v4nfa4LfvX1tPea4PaZMcIe+Xd9sjNN8FSvC1bn6Oa34PLAs/k68jlWA/bBtVtLmD/J6Yxnew3+p++tSbguuNxhsgiGdI53QrqKNKvrgpeOa+OAXPEGk6oBuSaETsgPhwHGglv0AgICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgAAICAgIgICAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAgICAiAgICAAAoIj/AfouaKUi23YrwAAAABJRU5ErkJggg=="
+            }
+          }
+        ]
+      },
+      {
+        "content": "Thought: You are facing downwards in your room. Continue to move down to find the stairs and exit your room.\n\nAction: DOWN",
+        "role": "assistant"
+      },
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": "data:image/png;base64,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"
+            }
+          }
+        ]
+      },
+      {
+        "content": "Thought: You have moved down in your room. Now you should move left to find the stairs leading downstairs.\n\nAction: LEFT",
+        "role": "assistant"
+      },
+      {
+        "role": "user",
+        "content": "Skip the preamble, summarize the current state of the game in details, including your current team, and progress on your current objective"
+      },
+      {
+        "content": "Current State: You are in your bedroom at the start of the game and have been trying to navigate downstairs to leave the house. No Pok\u00e9mon has been obtained yet. Your current objective remains to head to Professor Elm's lab to receive your first Pok\u00e9mon. No team or progress beyond attempting to exit the bedroom.\n\nObjective: Leave the house and go to Professor Elm's lab to receive your first Pok\u00e9mon.",
+        "role": "assistant"
+      }
+    ]
+  ],
+  "objective": "Head to Professor Elm's lab to receive your first Pok\u00e9mon.",
+  "sumarized_state": "Current State: You are in your bedroom at the start of the game and have been trying to navigate downstairs to leave the house. No Pok\u00e9mon has been obtained yet. Your current objective remains to head to Professor Elm's lab to receive your first Pok\u00e9mon. No team or progress beyond attempting to exit the bedroom.\n\nObjective: Leave the house and go to Professor Elm's lab to receive your first Pok\u00e9mon.",
+  "state": 1,
+  "current_actions": 4,
+  "next_action": "press down."
+}
