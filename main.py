@@ -1,19 +1,22 @@
 from dotenv import load_dotenv
+
 load_dotenv()
 
-import os
-from os import path
-import json
-from enum import Enum
-from datetime import datetime
 import base64
+import json
+import os
+import queue
 import re
+import threading
 import time
+from datetime import datetime
+from enum import Enum
+from os import path
 from typing import List, Tuple
 
-from pyboy import PyBoy
 import numpy as np
 import openai
+from pyboy import PyBoy
 
 # PROMPS
 DEFAULT_SYSTEM_PROMPT = (
@@ -207,6 +210,115 @@ def get_summary(client: openai.Client, state: dict):
     save_state(state)
     return state
 
+# Communication queues between threads
+action_queue = queue.Queue()  # For sending actions from API thread to PyBoy thread
+screenshot_queue = queue.Queue()  # For sending screenshots from PyBoy thread to API thread
+state_queue = queue.Queue()  # For sending state updates between threads
+
+def pyboy_thread_function(state):
+    """Thread function to run PyBoy and advance frames"""
+    em = PyBoy('rom.gbc')
+    i = 0
+    prev_screenshot = None
+    
+    # Initialize state if it has a saved state file
+    if state['state_file'] != None:
+        with open(state['state_file'], 'rb') as fp:
+            em.load_state(fp)
+    
+    # Put initial state in queue for API thread
+    state_queue.put(state)
+    
+    while em.tick():
+        # Check if there's a new action to perform
+        try:
+            action = action_queue.get_nowait()
+            try:
+                em.button(action, 5)
+                em.tick()
+            except Exception as e:
+                print(f'Error: {e}, action: {action}')
+            action_queue.task_done()
+        except queue.Empty:
+            # No new action, continue normal operation
+            pass
+            
+        if i % FRAME_SKIP == 0:
+            i = 0
+            pil_image = em.screen.image
+            pil_image.save('screenshot.png')
+            
+            if prev_screenshot != None:
+                score = compare_screenshots(prev_screenshot, pil_image)
+                if score < 0.97:  # Screen has changed significantly
+                    # Save screenshot for API thread
+                    if not path.isdir('./screenshots'):
+                        os.mkdir('./screenshots')
+                    image_path = f'./screenshots/{datetime.now().timestamp()}.{IMAGE_FORMAT}'
+                    pil_image.save(image_path, optimize=True, quality=80)
+                    image_url = encode_image(image_path)
+                    
+                    # Put screenshot in queue for API thread
+                    if screenshot_queue.qsize() == 0:
+                        screenshot_queue.put(image_url)
+                    
+                    # Save state periodically
+                    if state['state'] == State.SUMMARIZE.value:
+                        with open(GAME_STATE_FILE, 'wb') as fp:
+                            em.save_state(fp)
+                        state['state_file'] = GAME_STATE_FILE
+                        
+            prev_screenshot = pil_image
+        
+        i += 1
+        
+        # Update state from API thread if available
+        try:
+            new_state = state_queue.get_nowait()
+            state = new_state
+            state_queue.task_done()
+        except queue.Empty:
+            # No state update, continue
+            pass
+
+def api_thread_function(client):
+    """Thread function to handle API requests"""
+    # Get initial state from PyBoy thread
+    state = state_queue.get()
+    state_queue.task_done()
+    
+    while True:
+        if state['state'] == State.OBJECTIVE.value:
+            # Get next objective
+            state = get_next_objective(client, state)
+            # Share updated state with PyBoy thread
+            state_queue.put(state)
+            
+        elif state['state'] == State.ACTION.value:
+            # Wait for a new screenshot
+            image_url = screenshot_queue.get()
+            screenshot_queue.task_done()
+            
+            # Get next action
+            if state['next_action'] is None:
+                state = get_next_action(client, state, image_url)
+                
+                # If we have an action, send it to PyBoy thread
+                if state['next_action'] is not None:
+                    action_queue.put(state['next_action'])
+                    
+                # Share updated state with PyBoy thread
+                state_queue.put(state)
+                
+        elif state['state'] == State.SUMMARIZE.value:
+            # Reset model context
+            state = get_summary(client, state)
+            # Share updated state with PyBoy thread
+            state_queue.put(state)
+            
+        # Small sleep to prevent CPU hogging
+        time.sleep(0.01)
+
 def main():
     global MAX_ACTIONS
     BASE_URL = os.getenv('BASE_URL')
@@ -217,11 +329,8 @@ def main():
         print('Using BASE_URL:', BASE_URL)
         client = openai.Client(base_url=BASE_URL)
         MAX_ACTIONS = 3
-    em = PyBoy('rom.gbc')
     
-    i = 0
-    prev_screenshot = None
-
+    # Initialize state
     if path.exists(STATE_JSON):
         with open(STATE_JSON, 'r') as fp:
             state = json.load(fp)
@@ -236,51 +345,23 @@ def main():
             'current_actions': 0,
             'next_action': None,
         }
-
-    if state['state_file'] != None:
-        with open(state['state_file'], 'rb') as fp:
-            em.load_state(fp)
-
-    while em.tick():
-        if i % FRAME_SKIP == 0:
-            i = 0
-            score = 0
-            pil_image = em.screen.image
-            pil_image.save('screenshot.png')
-
-            if prev_screenshot != None:
-                if score < 0.97 or state['next_action'] is None:
-                    if state['state'] == State.ACTION.value:
-                        if not path.isdir('./screenshots'):
-                            os.mkdir('./screenshots')
-                        image_path = f'./screenshots/{datetime.now().timestamp()}.{IMAGE_FORMAT}'
-                        pil_image.save(image_path, optimize=True, quality=80)
-                        image_url = encode_image(image_path)
-                        state = get_next_action(client, state, image_url)
-
-                        try:
-                            em.button(state['next_action'], 5)
-                            em.tick()
-                        except Exception as e:
-                            print(f'Error: {e}, action: {state["next_action"]}')
-
-                    elif state['state'] == State.SUMMARIZE.value:
-                        # save new state after x turns
-                        with open(GAME_STATE_FILE, 'wb') as fp:
-                            em.save_state(fp)
-                        state['state_file'] = GAME_STATE_FILE
-
-                        # reset model context
-                        state = get_summary(client, state)
-
-                    if state['state'] == State.OBJECTIVE.value:
-                        state = get_next_objective(client, state)
-
-                    score = compare_screenshots(prev_screenshot, pil_image)
-                    prev_screenshot = pil_image
-            else:
-                prev_screenshot = pil_image
-        i += 1
+    
+    # Create and start PyBoy thread
+    pyboy_thread = threading.Thread(target=pyboy_thread_function, args=(state,))
+    pyboy_thread.daemon = True  # Thread will exit when main program exits
+    pyboy_thread.start()
+    
+    # Create and start API thread
+    api_thread = threading.Thread(target=api_thread_function, args=(client,))
+    api_thread.daemon = True  # Thread will exit when main program exits
+    api_thread.start()
+    
+    # Keep main thread alive
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Exiting...")
 
 if __name__ == '__main__':
     main()
