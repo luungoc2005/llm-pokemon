@@ -2,3 +2,4 @@ rom.*
 screenshots/*
 .env
 game_state.sav
+_gbc

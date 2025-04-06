@@ -38,7 +38,7 @@ ACTION_SYSTEM_PROMPT = (
     "The user will send you screenshots of the game and you will have to tell them what button to press next. "
     "Reply in the following format:\n"
     "Thought: Think of where you are, describe where the main objectives are on the screen and conclude on the next action you should do on the screen to advance the objective\n"
-    "Action: The next button you should press on the screen, without quotes. It should be one of: [A, B, UP, DOWN, LEFT, RIGHT, START, SELECT].\n"
+    "Action: The next button you should press on the screen, without quotes. It HAS TO BE one of: [A, B, UP, DOWN, LEFT, RIGHT, START, SELECT].\n"
     "The user will then reply you with the next screenshot.\n"
     "Once you finish your objective, say 'FINISH'.\n"
     "If the user tells you to summarize the state of the game, do that instead.\n\n"
@@ -63,7 +63,9 @@ class State(Enum):
 
 FRAME_SKIP = 60 # 60fps
 STATE_JSON = 'state.json'
-MODEL = 'gpt-4o-mini'
+# MODEL = 'gpt-4o-mini'
+# MODEL = 'llama3.2-vision'
+MODEL = 'gemma3:27b'
 MAX_TOKENS = 100
 MAX_TOKENS_LONG = 512
 MAX_ACTIONS = 1
@@ -113,6 +115,7 @@ def get_response(client: openai.Client, history: List[dict], max_tokens=MAX_TOKE
         max_tokens=max_tokens,
     )
     new_message = response.choices[0].message
+    print(new_message.content)
     history.append(new_message.to_dict())
     return history, new_message
 
