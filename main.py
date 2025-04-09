@@ -66,6 +66,7 @@ STATE_JSON = 'state.json'
 # MODEL = 'gpt-4o-mini'
 # MODEL = 'llama3.2-vision'
 MODEL = 'gemma3:27b'
+# MODEL = 'mistral-small3.1'
 MAX_TOKENS = 100
 MAX_TOKENS_LONG = 512
 MAX_ACTIONS = 1
@@ -104,7 +105,7 @@ def get_response(client: openai.Client, history: List[dict], max_tokens=MAX_TOKE
         if not isinstance(item['content'], str) and ix != len(history) - 1:
             prompt_history.append({
                 'role': item['role'],
-                'content': '(image)',
+                'content': '(screenshot)',
             })
         else:
             prompt_history.append(item)
@@ -162,17 +163,23 @@ def get_next_action(client: openai.Client, state: dict, screenshot_url: str):
             },
         ]
     
-    screenshot_message = {
-        'role': 'user',
-        'content': [
-          {
-            "type": "image_url",
-            "image_url": {
-              "url": screenshot_url,
+    if screenshot_url != "":
+        screenshot_message = {
+            'role': 'user',
+            'content': [
+            {
+                "type": "image_url",
+                "image_url": {
+                "url": screenshot_url,
+                },
             },
-          },
-        ],
-    }
+            ],
+        }
+    else:
+        screenshot_message = {
+            'role': 'user',
+            'content': '(screenshot did not change)',
+        }
     state['history'].append(screenshot_message)
     start_time = time.time()
     state['history'], new_message = get_response(client, state['history'])
@@ -223,6 +230,7 @@ def api_thread_function(client):
     # Get initial state from PyBoy thread
     state = state_queue.get()
     state_queue.task_done()
+    image_url = ""
     
     while True:
         if state['state'] == State.OBJECTIVE.value:
@@ -233,19 +241,22 @@ def api_thread_function(client):
             
         elif state['state'] == State.ACTION.value:
             # Wait for a new screenshot
+            last_screenshot = image_url
             image_url = screenshot_queue.get()
             screenshot_queue.task_done()
+
+            if last_screenshot == image_url:
+                image_url = "" # Set image_url to empty so that we send "(screenshot did not change)" to the model
             
             # Get next action
-            if state['next_action'] is None:
-                state = get_next_action(client, state, image_url)
+            state = get_next_action(client, state, image_url)
+            
+            # If we have an action, send it to PyBoy thread
+            if state['next_action'] is not None:
+                action_queue.put(state['next_action'])
                 
-                # If we have an action, send it to PyBoy thread
-                if state['next_action'] is not None:
-                    action_queue.put(state['next_action'])
-                    
-                # Share updated state with PyBoy thread
-                state_queue.put(state)
+            # Share updated state with PyBoy thread
+            state_queue.put(state)
                 
         elif state['state'] == State.SUMMARIZE.value:
             # Reset model context
@@ -260,15 +271,15 @@ def main():
     global MAX_ACTIONS
     BASE_URL = os.getenv('BASE_URL')
     if BASE_URL is None:
-        client = openai.Client()
+        client = openai.Client(api_key=os.getenv('OPENAI_API_KEY'))
         MAX_ACTIONS = 5
     else:
         print('Using BASE_URL:', BASE_URL)
-        client = openai.Client(base_url=BASE_URL)
+        client = openai.Client(base_url=BASE_URL, api_key='ollama')
         MAX_ACTIONS = 3
     
     # Initialize state
-    if path.exists(STATE_JSON):
+    if path.isfile(STATE_JSON):
         with open(STATE_JSON, 'r') as fp:
             state = json.load(fp)
     else:
@@ -295,9 +306,10 @@ def main():
     em = PyBoy('rom.gbc')
     i = 0
     prev_screenshot = None
+    image_url = ""
     
     # Initialize state if it has a saved state file
-    if state['state_file'] != None:
+    if state['state_file'] != None and path.isfile(state['state_file']):
         with open(state['state_file'], 'rb') as fp:
             em.load_state(fp)
     
@@ -331,17 +343,11 @@ def main():
                         image_path = f'./screenshots/{datetime.now().timestamp()}.{IMAGE_FORMAT}'
                         pil_image.save(image_path, optimize=True, quality=80)
                         image_url = encode_image(image_path)
-                        
-                        # Put screenshot in queue for API thread
-                        if screenshot_queue.qsize() == 0:
-                            screenshot_queue.put(image_url)
-                        
-                        # Save state periodically
-                        if state['state'] == State.SUMMARIZE.value:
-                            with open(GAME_STATE_FILE, 'wb') as fp:
-                                em.save_state(fp)
-                            state['state_file'] = GAME_STATE_FILE
-                            
+                    
+                if screenshot_queue.qsize() == 0 and image_url != "":
+                    # Put screenshot in queue for API thread
+                    screenshot_queue.put(image_url)
+                    
                 prev_screenshot = pil_image
             
             i += 1
@@ -351,6 +357,13 @@ def main():
                 new_state = state_queue.get_nowait()
                 state = new_state
                 state_queue.task_done()
+
+                # Save state periodically
+                if state['state'] == State.SUMMARIZE.value:
+                    with open(GAME_STATE_FILE, 'wb') as fp:
+                        em.save_state(fp)
+                    state['state_file'] = GAME_STATE_FILE
+
             except queue.Empty:
                 # No state update, continue
                 pass
